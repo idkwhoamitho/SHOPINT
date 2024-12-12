@@ -136,7 +136,7 @@ void displayLogoend() {
     printf("			 Carlos\033[0m\n");
     printf("\033[33m----------------------------------------------------------\033[0m\n");
 	Sleep(150);
-    printf("\033[37m	Thank you for using our software!\033[0m");
+    printf("\033[37m	    Thank you for using our software!\033[0m\n\n\n\n\n");
 }
 
 void displaymenu(){
@@ -169,7 +169,7 @@ void transactionMenu(){
             }
             else{
                 products[index].stock -= sold;
-                total += products[index].price;
+                total += products[index].price * sold;
             }            
         }
         getchar();
@@ -181,11 +181,12 @@ void transactionMenu(){
             scanf("%ld",&pay);
             if(pay < total){
                 printf("\nYou don't have enough money to pay!");
+                products[index].stock += sold;
                 getchar();
                 break;
             }
             else{
-                if(pay > total) printf("\nYour return: %d",pay - total);
+                if(pay > total) printf("\nYour return: %d\n",pay - total);
                 updateData();
                 getchar();
                 break;
@@ -200,11 +201,12 @@ void addDataMenu(){
     while (1)
     {
         /* code */
-        printf("\nProduct Name: ");
-        scanf("%s",Data.productName);
-        printf("\nPrice: ");
+        getchar();
+        printf("\nProduct Name: "); 
+        fgets(Data.productName, sizeof(Data.productName), stdin);
+        printf("Price: ");
         scanf("%ld",&Data.price);
-        printf("\nStocks: ");
+        printf("Stocks: ");
         scanf("%d",&Data.stock);
         Data.ID = jumlahProd + 1;
         jumlahProd++;

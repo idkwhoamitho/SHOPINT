@@ -1,6 +1,7 @@
 #ifndef FILEIO_H
 #define FILEIO_H
 #include <stdio.h>
+#include <string.h>
 #include "data_processing.h"
 
 FILE *data;
@@ -57,6 +58,11 @@ void updateData(){
 }
 
 void appendData(struct Product Data){
+// Check for extra \n in the name
+    size_t len = strlen(Data.productName);
+    if (len > 0 && Data.productName[len - 1] == '\n') {
+        Data.productName[len - 1] = '\0';
+    }
     FILE *file = fopen("Product_Catalogue.csv","a");
 
     fprintf(file,"\n%d,%s,%d,%ld",
