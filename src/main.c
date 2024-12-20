@@ -29,6 +29,10 @@ void allmenu(){
     	Sleep(50);
         printf("\n5. Add product");
     	Sleep(50);
+    	printf("\n6. Add existing Products");
+    	Sleep(50);
+    	printf("\n7. Delete product");
+    	Sleep(50);
         printf("\n0. Exit");
     	Sleep(50);
         printf("\nYour choice: ");
@@ -46,6 +50,10 @@ void allmenu(){
 			system("cls || clear"); transactionMenu();
 		} else if(choose == 5){
 			system("cls || clear"); addDataMenu(); system("cls || clear");readFile(); printSortedProducts();
+		} else if(choose == 6){
+			system("cls || clear"); AddExistingDataMenu(); system("cls || clear");readFile(); printSortedProducts();
+		} else if(choose == 7){
+			system("cls || clear"); DeleteDataMenu(); system("cls || clear");readFile(); printSortedProducts();
 		}
 
     
