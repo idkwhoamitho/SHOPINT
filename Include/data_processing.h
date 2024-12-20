@@ -190,5 +190,23 @@ void sortProductByPrice(int jumlahProd){
         }
     }
 }
+void deleteProduct(int id, const char* filePath){  
+    int index;
+    getProductById(id,jumlahProd,&index);
+    struct Product temp[jumlahProd - 1];
+    if(index == -1){
+        perror("Record not found!");
+        return;
+    }
+    for(int i = 0;i < jumlahProd;i++){
+        if(i != index){
+            temp[i] = products[i];
+        }
+    }
+
+    deleteData(temp);
+}
+
+
 
 #endif

@@ -56,6 +56,34 @@ void updateData(){
    fclose(file);
    printf("Data updated");       
 }
+void deleteData(struct Product* temp){
+     char header[1024];
+   FILE *file = fopen("Product_Catalogue.csv","r");
+
+   if (fgets(header,sizeof(header),file) == NULL)
+   {
+    /* code */
+        perror("Error reading a header");
+        fclose(file);
+        return;
+   }
+   file = fopen("Product_Catalogue.csv","w");
+   fputs(header,file);
+
+   for (int i = 0; i < jumlahProd; i++)
+   {
+    /* code */
+        fprintf(file,"\n%d,%s,%d,%ld",
+        temp[i].ID,
+        temp[i].productName,
+        temp[i].stock,
+        temp[i].price
+        );
+   }
+   fclose(file);
+   printf("Data Deleted");       
+}
+
 
 void appendData(struct Product Data){
 // Check for extra \n in the name
