@@ -56,7 +56,7 @@ void updateData(){
    fclose(file);
    printf("Data updated");       
 }
-void deleteData(struct Product* temp){
+void deleteData(struct Product* temp, int Size){
      char header[1024];
    FILE *file = fopen("Product_Catalogue.csv","r");
 
@@ -70,7 +70,7 @@ void deleteData(struct Product* temp){
    file = fopen("Product_Catalogue.csv","w");
    fputs(header,file);
 
-   for (int i = 0; i < jumlahProd; i++)
+   for (int i = 0; i < Size; i++)
    {
     /* code */
         fprintf(file,"\n%d,%s,%d,%ld",
@@ -81,7 +81,7 @@ void deleteData(struct Product* temp){
         );
    }
    fclose(file);
-   printf("Data Deleted");       
+   printf("\nData Deleted\n\n");       
 }
 
 

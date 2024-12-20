@@ -24,12 +24,11 @@ struct Sales Sale;
 // int product_size = sizeof(products)/sizeof(products[0]);
 
 void getProductById(int id,int size,int *index){
+	*index = -1;
     int i = 0;
-    int found;
     for (;i < size; i++)
     {
         /* code */
-        found++;
         if(products[i].ID == id) {
             *index = i;
             break;
@@ -37,13 +36,11 @@ void getProductById(int id,int size,int *index){
     }
     
     if(*index == -1) {
-        printf("Product Not Found");
+        printf("Product Not Found\n");
         return;
     }
-    
-    
-    
 }
+
 void sortProductById(int jumlahProd){
     struct Product temp;
     int sortType = 0;
@@ -190,23 +187,5 @@ void sortProductByPrice(int jumlahProd){
         }
     }
 }
-void deleteProduct(int id, const char* filePath){  
-    int index;
-    getProductById(id,jumlahProd,&index);
-    struct Product temp[jumlahProd - 1];
-    if(index == -1){
-        perror("Record not found!");
-        return;
-    }
-    for(int i = 0;i < jumlahProd;i++){
-        if(i != index){
-            temp[i] = products[i];
-        }
-    }
-
-    deleteData(temp);
-}
-
-
 
 #endif

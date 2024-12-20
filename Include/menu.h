@@ -153,28 +153,27 @@ void transactionMenu(){
         /* code */
         printf("\n input the id of a product: ");
         scanf("%d",&id);
-        if (id > jumlahProd || id < 0)
-        {
-            /* code */
-            perror("Product's not found");
+        getProductById(id, jumlahProd, &index);
+        if (index == -1) {
+            printf("Invalid product ID. Please try again.\n");
+            continue;
         }
-        else{
-            getProductById(id,jumlahProd,&index);
-            printf("\nHow much? ");
-            scanf("%d",&sold);
-            if (products[index].stock <= 0 )
-            {
+        printf("\nHow much? ");
+        scanf("%d",&sold);
+        if (products[index].stock <= 0 ){
                 /* code */
                 printf("Product's sold out!");
+                continue;
             }
-            else{
-                products[index].stock -= sold;
-                total += products[index].price * sold;
-            }            
+        if (sold > products[index].stock){
+        	printf("Not enough stock available! Only %d left.\n", products[index].stock);
+            continue;
         }
+        products[index].stock -= sold;
+        total += products[index].price * sold;          
         getchar();
         printf("Did you want to continue the transaction ?(Y/N): ");
-        scanf("%c",&choose);
+        scanf(" %c",&choose);
         if(choose == 'N' || 'n') {
             printf("\ntotal Price: %ld",total);
             printf("\nplease input your money: ");
@@ -193,8 +192,74 @@ void transactionMenu(){
             }
         };
 
-    }        
+    }
 }
+
+void AddExistingDataMenu(){
+    char choose;
+    int id,index, add;
+    printProductsCatalogue();
+    while (1)
+    {
+        /* code */
+        printf("\n input the id of a product: ");
+        scanf("%d",&id);
+        getProductById(id, jumlahProd, &index);
+        if (index == -1) {
+            printf("Invalid product ID. Please try again.\n");
+            continue;
+        }
+        printf("\n How much item : ");
+        scanf("%d",&add);
+        getchar();
+		products[index].stock += add;
+        printf("Did you want to continue adding existing products ?(Y/N): ");
+        scanf(" %c",&choose);
+        if(choose == 'N' || 'n') {
+            updateData();
+            break;
+        }
+    }
+}
+
+void DeleteDataMenu(){
+    char choose1, choose2;
+    int id,index;
+    printProductsCatalogue();
+    while (1)
+    {
+        /* code */
+        printf("\n input the id of a product: ");
+        scanf("%d",&id);
+        getProductById(id, jumlahProd, &index);
+        if (index == -1) {
+            printf("Invalid product ID. Please try again.\n");
+            continue;
+        }
+    	printf("\nAre you sure you want to delete the data ?(Y/N) ");
+		scanf(" %c",&choose1);
+        getchar();
+        if(choose1 == 'N' || choose1 == 'n'){
+	    	break;
+		} else {
+			struct Product temp[jumlahProd - 1];
+            int tempindex = 0;
+        	for(int i = 0;i < jumlahProd;i++){
+        		if(i != index){
+            		temp[tempindex++] = products[i];
+        		}
+	    	}
+    		deleteData(temp, jumlahProd - 1);
+       		jumlahProd--;
+        	printf("Did you want to continue to delete products ?(Y/N): ");
+        	scanf(" %c",&choose2); getchar();
+        	if(choose2 == 'N' || choose2 =='n') {
+            	break;
+        	}
+		}
+    }
+}
+
 void addDataMenu(){
     struct Product Data;
     char choose;
@@ -208,14 +273,14 @@ void addDataMenu(){
         scanf("%ld",&Data.price);
         printf("Stocks: ");
         scanf("%d",&Data.stock);
-        Data.ID = jumlahProd + 1;
+        Data.ID = products[jumlahProd-1].ID + 1;
         jumlahProd++;
         appendData(Data);
         
 
         getchar();
         printf("Did you want to add another product? (Y/N): ");
-        scanf("%c",&choose);
+        scanf(" %c",&choose);
         if (choose == 'N' || 'n')
         {
             /* code */
