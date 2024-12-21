@@ -1,10 +1,10 @@
 #ifndef MENU_H
 #define MENU_H
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "fileIO.h"
 #include <windows.h>
-
 void printProductsCatalogue(){
     printf("%-5s %-20s %-10s %-10s\n", "ID", "Product Name", "Stock", "Price");
     printf("------------------------------------------------------------\n");
@@ -210,7 +210,11 @@ void AddExistingDataMenu(){
             continue;
         }
         printf("\n How much item : ");
-        scanf("%d",&add);
+        if(scanf("%d",&add) != 1){
+            printf("Invalid input. Please enter a valid integer for the quantity.\n");
+            while (getchar() != '\n'); 
+            continue;
+        }
         getchar();
 		products[index].stock += add;
         printf("Did you want to continue adding existing products ?(Y/N): ");
@@ -267,12 +271,34 @@ void addDataMenu(){
     {
         /* code */
         getchar();
-        printf("\nProduct Name: "); 
-        fgets(Data.productName, sizeof(Data.productName), stdin);
-        printf("Price: ");
-        scanf("%ld",&Data.price);
-        printf("Stocks: ");
-        scanf("%d",&Data.stock);
+        int isValid;
+        do
+        {                            
+            printf("\nProduct Name: "); 
+            fgets(Data.productName, sizeof(Data.productName), stdin);
+                size_t len = strlen(Data.productName);
+                if (len > 0 && Data.productName[len - 1] == '\n') {
+                    Data.productName[len - 1] = '\0';
+                }
+
+            for(int i = 0;i< strlen(Data.productName);i++){
+                if(!isalpha(Data.productName[i])) isValid = 0;
+                else 
+                    isValid = 1;
+            }
+        } while (!isValid);
+       
+        do{
+             printf("Price: ");
+            scanf("%ld",&Data.price);
+        }while(Data.price <= 0);       
+        do
+        {
+            printf("Stocks: ");
+            scanf("%d",&Data.stock);
+            /* code */
+        } while (Data.stock < 0);
+        
         Data.ID = products[jumlahProd-1].ID + 1;
         jumlahProd++;
         appendData(Data);
