@@ -273,7 +273,7 @@ void addDataMenu(){
         getchar();
         int isValid;
         do
-        {                            
+        {            
             printf("\nProduct Name: "); 
             fgets(Data.productName, sizeof(Data.productName), stdin);
                 size_t len = strlen(Data.productName);
@@ -286,6 +286,22 @@ void addDataMenu(){
                 else 
                     isValid = 1;
             }
+            if (isValid == 0)
+            {
+                /* code */
+                int choose;
+                printf("Did the product name contain number? (Y/N)");
+                scanf(" %c",&choose);
+                if(choose == 'N' || choose =='n') {
+                    getchar();                
+            	    continue;
+
+        	    }
+        	    else if(choose == 'Y' || choose =='y') {
+            	    isValid = 1;
+        	    }
+            }
+            
         } while (!isValid);
        
         do{
